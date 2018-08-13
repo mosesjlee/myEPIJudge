@@ -1,3 +1,5 @@
+I cloned this repo from https://github.com/adnanaziz/EPIJudge in conjunction of the Elements of Programming Interview C++ Book. The programming exercises here are not my own. I give full credit to the creators and authors of the aforementioned book.
+
 # EPI Judge
 
 ## Introduction

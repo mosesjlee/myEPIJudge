@@ -3,6 +3,8 @@
 using std::vector;
 bool CanReachEnd(const vector<int>& max_advance_steps) {
 	int curr_furthest = 0;
+	//Remember that the for loop has a conditional statement and you can use it as a conditional statement
+	//Instead of an if inside the loop
 	for(int i = 0; i < max_advance_steps.size(); i++) {
 		if(i + max_advance_steps[i] > curr_furthest) curr_furthest = i + max_advance_steps[i];
 		if(curr_furthest <= i && i + max_advance_steps[i] < max_advance_steps.size()-1) return false;

@@ -5,11 +5,39 @@ using std::string;
 
 string IntToString(int x) {
   // TODO - you fill in here.
-  return "";
+  if(x == 0) return "0";
+
+  int curr_digit = 0;
+  long copy_x = x;
+  string retval = "";
+  while(copy_x) {
+    curr_digit = abs(copy_x % 10);
+    retval.insert(0, 1,(char) ('0' + curr_digit));
+    copy_x /= 10;
+  }
+
+  if(x < 0) {
+    retval.insert(0, 1,'-');
+  }
+
+  return retval;
 }
+
 int StringToInt(const string& s) {
   // TODO - you fill in here.
-  return 0;
+  long multiplier = pow(10, s.size()-1);
+  int retval = 0;
+  
+  if(s[0] == '-') multiplier /=10;
+
+  for(int i = (s[0] == '-'); i < s.size(); i++) {
+    retval += (s[i] - '0') * multiplier;
+    multiplier /= 10;
+  }
+
+  if(s[0] == '-') retval *= -1;
+
+  return retval;
 }
 void Wrapper(int x, const string& s) {
   if (IntToString(x) != s) {

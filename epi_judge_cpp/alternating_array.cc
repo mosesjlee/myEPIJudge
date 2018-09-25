@@ -7,14 +7,6 @@
 using std::vector;
 void Rearrange(vector<int>* A_ptr) {
   // TODO - you fill in here.
-  for(int i = 1; i < A_ptr->size(); i++) {
-    if( ((i%2 == 0) && (A_ptr->at(i) > A_ptr->at(i-1))) || ((i%2 == 1) && (A_ptr->at(i) < A_ptr->at(i-1)))) {
-      int temp = A_ptr->at(i);
-      (*A_ptr)[i] = A_ptr->at(i-1);
-      (*A_ptr)[i-1] = temp;
-
-    }
-  }
   return;
 }
 void CheckAnswer(const vector<int>& A) {

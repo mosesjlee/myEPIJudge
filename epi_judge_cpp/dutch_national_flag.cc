@@ -8,8 +8,34 @@ typedef enum { kRed, kWhite, kBlue } Color;
 
 void DutchFlagPartition(int pivot_index, vector<Color>* A_ptr) {
   // TODO - you fill in here.
+  vector<Color> & A = *A_ptr;
+  Color pivot = A[pivot_index];
+  
+
+  //This implementation makes more sense to me
+  int end = A.size() - 1;
+  int start = 0;
+  for(int j = 0; j < A.size(); j++) {
+    if(A[j] < pivot) {
+      Color temp = A[j];
+      A[j] = A[start];
+      A[start] = temp;
+      start++;
+    }
+  }
+  
+  for(int k = A.size() - 1; k >= 0; k--) {
+    if(A[k] > pivot) {
+      Color temp = A[k];
+      A[k] = A[end];
+      A[end] = temp;
+      end--;
+    }
+  }
+  
   return;
 }
+
 void DutchFlagPartitionWrapper(TimedExecutor& executor, const vector<int>& A,
                                int pivot_idx) {
   vector<Color> colors;

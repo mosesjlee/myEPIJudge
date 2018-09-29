@@ -3,7 +3,32 @@
 using std::vector;
 vector<int> PlusOne(vector<int> A) {
   // TODO - you fill in here.
-  return {};
+  vector<int> added(A);
+  added.back()++;
+#ifdef MY_INITIAL_APPROACH
+  int carry_over = 0;
+  for(int i = added.size()-1; i >= 0; i --) {
+    added[i] += carry_over;
+    carry_over = added[i]/10;
+    if(carry_over == 0) break;
+    added[i] = 0;
+  }
+
+  if(carry_over == 1) added.emplace(added.begin(), carry_over);
+#else
+  //Why process the first element for carry_over?
+  //Skip to the second least significant digit
+  for(int i = added.size()-2; i >= 0; i--) {
+    added[i] += added[i+1]/10;
+    added[i+1] %= 10;
+  }
+
+  if(added[0] == 10) {
+    added[0] = 0;
+    added.emplace(added.begin(), 1);
+  }
+#endif
+  return added;
 }
 
 int main(int argc, char* argv[]) {

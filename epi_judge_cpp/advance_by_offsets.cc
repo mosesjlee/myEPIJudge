@@ -3,6 +3,13 @@
 using std::vector;
 bool CanReachEnd(const vector<int>& max_advance_steps) {
   // TODO - you fill in here.
+  if(max_advance_steps.size() == 1) return true;
+
+  int furthest = 0;
+  for(int i = 0; i < max_advance_steps.size(); i++) {
+    furthest = fmax(furthest, max_advance_steps[i] + i);
+    if(furthest == i && furthest != max_advance_steps.size()-1) return false;
+  }
   return true;
 }
 

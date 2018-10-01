@@ -9,6 +9,23 @@ using std::bind;
 using std::vector;
 void RandomSampling(int k, vector<int>* A_ptr) {
   // TODO - you fill in here.
+  //N CHOOSE K
+  vector<int> & A = *A_ptr;
+#ifdef O_N_MEMORY
+  vector<int> copy_A(A);
+  A.clear();
+  while (k > 0) {
+    int rand_index = rand()%copy_A.size();
+    A.push_back(copy_A[rand_index]);
+    copy_A.erase(copy_A.begin()+rand_index);
+    k--;
+  }
+#else
+  for(int i = 0; i < k; i++) {
+    int rand_index = (rand()%(A.size()-i)) + i;
+    std::swap(A[i], A[rand_index]);
+  }
+#endif
   return;
 }
 bool RandomSamplingRunner(TimedExecutor& executor, int k, vector<int> A) {

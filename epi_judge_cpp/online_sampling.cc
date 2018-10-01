@@ -13,7 +13,8 @@ vector<int> OnlineRandomSample(vector<int>::const_iterator stream_begin,
                                const vector<int>::const_iterator stream_end,
                                int k) {
   // TODO - you fill in here.
-  return {};
+  vector<int> result;
+  return result;
 }
 bool OnlineRandomSamplingRunner(TimedExecutor& executor, vector<int> stream,
                                 int k) {

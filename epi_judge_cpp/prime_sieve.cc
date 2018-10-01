@@ -5,11 +5,14 @@ using std::vector;
 vector<int> GeneratePrimes(int n) {
   // TODO - you fill in here.
   vector<int> sieve(n+1, 1);
-  
   vector<int> result;
+
+
   for(int i = 2; i < sieve.size(); i++) {
-    for(int j = i; j * i< sieve.size(); j++) {
-        sieve[j*i] = 0;
+    if(sieve[i] == 1) { //Why double check if it's already marked prime?
+      for(int j = 2; j * i < sieve.size(); j++) {
+          sieve[j*i] = 0;
+      }
     }
   }
 

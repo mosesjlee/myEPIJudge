@@ -4,7 +4,21 @@ using std::vector;
 // Given n, return all primes up to and including n.
 vector<int> GeneratePrimes(int n) {
   // TODO - you fill in here.
-  return {};
+  vector<int> sieve(n+1, 1);
+  
+  vector<int> result;
+  for(int i = 2; i < sieve.size(); i++) {
+    for(int j = i; j * i< sieve.size(); j++) {
+        sieve[j*i] = 0;
+    }
+  }
+
+  for(int i = 2; i < sieve.size(); i++) {
+    if(sieve[i] == 1)
+      result.push_back(i);
+  }
+
+  return result;
 }
 
 int main(int argc, char* argv[]) {

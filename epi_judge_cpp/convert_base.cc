@@ -2,7 +2,7 @@
 #include "test_framework/generic_test.h"
 using std::string;
 using std::vector;
-#define BRUTE_FORCE
+//#define BRUTE_FORCE
 string ConvertBase(const string& num_as_string, int b1, int b2) {
   // TODO - you fill in here.
 #ifdef BRUTE_FORCE
@@ -55,6 +55,35 @@ string ConvertBase(const string& num_as_string, int b1, int b2) {
   }
   
   if(retval[0] == '0') retval = retval.erase(0, 1);
+  if(num_as_string[0] == '-') retval = "-" + retval;
+  return retval;
+
+#else //========================= OPTIMIZED ============================/
+  if(num_as_string == "0" || num_as_string == "-0") return num_as_string;
+  long copy_num = 0;
+  int hex_num_start = 'A' - 10;
+  int power = 0;
+  string retval = "";
+
+  for(int i = (num_as_string[0] == '-'); i < num_as_string.length(); i++) {
+    copy_num *= b1;
+    if(isalpha(num_as_string[i])) {
+      copy_num += num_as_string[i] - hex_num_start;
+    }
+    else {
+      copy_num += num_as_string[i] - '0';
+    }
+  }
+
+  //This is no different then converting an Integer from to base 10 string
+  //This follows the same flow as IntToString
+  while(copy_num) {
+    int temp = copy_num%b2;
+    char curr_digit = temp < 10 ? temp + '0' : temp + hex_num_start;
+    retval = curr_digit + retval;
+    copy_num /= b2;
+  }
+
   if(num_as_string[0] == '-') retval = "-" + retval;
   return retval;
 #endif

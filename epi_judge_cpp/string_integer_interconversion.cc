@@ -5,11 +5,30 @@ using std::string;
 
 string IntToString(int x) {
   // TODO - you fill in here.
-  return "";
+  if(x == 0) return "0";
+  long copy_x = abs(static_cast<long>(x)); //To prevent integer overflow
+  
+  string retval = "";
+  while(copy_x) {
+    char temp = copy_x%10 + '0';
+    retval = temp + retval;
+    copy_x/= 10;
+  }
+
+  if(x < 0) retval = "-" + retval;
+  return retval;
 }
+
 int StringToInt(const string& s) {
   // TODO - you fill in here.
-  return 0;
+  long retval = 0;    //Long to prevent integer overflow
+
+  for(int i = (int) (s[0] == '-'); i < s.length(); i++) {
+    retval *= 10;
+    retval += (s[i] - '0');  
+  }
+
+  return retval * (s[0] == '-' ? -1 : 1);
 }
 void Wrapper(int x, const string& s) {
   if (IntToString(x) != s) {

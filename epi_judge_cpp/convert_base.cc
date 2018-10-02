@@ -12,7 +12,6 @@ string ConvertBase(const string& num_as_string, int b1, int b2) {
   int power = 0;
   string retval = "";
 
-
   for(int i = (num_as_string[0] == '-'); i < num_as_string.length(); i++) {
     copy_num *= b1;
     if(isalpha(num_as_string[i])) {
@@ -54,6 +53,7 @@ string ConvertBase(const string& num_as_string, int b1, int b2) {
       retval[retval.length()-1] = copy_num + hex_num_start;
     }
   }
+  
   if(retval[0] == '0') retval = retval.erase(0, 1);
   if(num_as_string[0] == '-') retval = "-" + retval;
   return retval;

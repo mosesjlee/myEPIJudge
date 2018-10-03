@@ -8,7 +8,34 @@ using std::vector;
 
 int ReplaceAndRemove(int size, char s[]) {
   // TODO - you fill in here.
-  return 0;
+  int final_size = size;
+  int write_idx = 0;
+  int read_idx = 0;
+  for (int i = 0; i < size; i++) {
+    if(s[i] == 'b') {
+      final_size--;
+    }
+    else {
+      s[write_idx++] = s[i];
+    }
+    if(s[i] == 'a') final_size++;
+  }
+
+  read_idx = write_idx-1;
+
+  //Reset write_idx to go backwards
+  write_idx = final_size-1;
+  for(int i = read_idx; i >=0; i--) {
+    if(s[i] == 'a') {
+      s[write_idx--] = 'd';
+      s[write_idx--] = 'd';
+    }
+    else {
+      s[write_idx--] = s[i];
+    }
+  }
+
+  return final_size;
 }
 vector<string> ReplaceAndRemoveWrapper(TimedExecutor& executor, int size,
                                        const vector<string>& s) {

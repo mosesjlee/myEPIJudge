@@ -4,6 +4,23 @@ using std::string;
 
 bool IsPalindrome(const string& s) {
   // TODO - you fill in here.
+  if(s.length() == 0) return true;
+
+  int start = 0;
+  int end = s.length()-1;
+
+  do {
+    while(!isalnum(s[start]) && start < end)
+      start++;
+
+    while(!isalnum(s[end]) && end > start)
+      end--;
+
+    if(tolower(s[start++]) != tolower(s[end--]))
+      return false;
+
+  } while (start < end);
+
   return true;
 }
 

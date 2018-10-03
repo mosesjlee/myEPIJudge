@@ -62,7 +62,6 @@ string ConvertBase(const string& num_as_string, int b1, int b2) {
   if(num_as_string == "0" || num_as_string == "-0") return num_as_string;
   long copy_num = 0;
   int hex_num_start = 'A' - 10;
-  int power = 0;
   string retval = "";
 
   for(int i = (num_as_string[0] == '-'); i < num_as_string.length(); i++) {
@@ -80,12 +79,12 @@ string ConvertBase(const string& num_as_string, int b1, int b2) {
   while(copy_num) {
     int temp = copy_num%b2;
     char curr_digit = temp < 10 ? temp + '0' : temp + hex_num_start;
-    retval = curr_digit + retval;
+    retval.push_back(curr_digit);
     copy_num /= b2;
   }
 
-  if(num_as_string[0] == '-') retval = "-" + retval;
-  return retval;
+  if(num_as_string[0] == '-') retval.push_back('-');
+  return {rbegin(retval), rend(retval)};
 #endif
 }
 

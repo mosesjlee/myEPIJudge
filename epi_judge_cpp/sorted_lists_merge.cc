@@ -1,9 +1,34 @@
 #include "list_node.h"
 #include "test_framework/generic_test.h"
+
+void PrintNodes() {
+
+}
+
 shared_ptr<ListNode<int>> MergeTwoSortedLists(shared_ptr<ListNode<int>> L1,
                                               shared_ptr<ListNode<int>> L2) {
   // TODO - you fill in here.
-  return nullptr;
+  if(L1 == nullptr && L2 == nullptr) return nullptr;
+  if(L1 == nullptr) return L2;
+  if(L2 == nullptr) return L1;
+
+  shared_ptr<ListNode<int>> anchor_pointer = L1->data <= L2->data ? L1 : L2;
+  shared_ptr<ListNode<int>> source_pointer = L1->data <= L2->data ? L2 : L1;
+  shared_ptr<ListNode<int>> temp = nullptr;
+
+  while(source_pointer != nullptr) {
+    while((anchor_pointer->next != nullptr) && (anchor_pointer->next->data < source_pointer->data)) {
+      anchor_pointer = anchor_pointer->next;
+    }
+
+    temp = source_pointer->next;
+    source_pointer->next = anchor_pointer->next;
+    anchor_pointer->next = source_pointer;
+    anchor_pointer = anchor_pointer->next;
+    source_pointer = temp;
+  }
+
+  return L1->data <= L2->data ? L1 : L2;
 }
 
 int main(int argc, char* argv[]) {

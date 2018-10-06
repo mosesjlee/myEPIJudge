@@ -4,9 +4,41 @@
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
 using std::shared_ptr;
-
+#define BOOK_ADDITION
 shared_ptr<ListNode<int>> HasCycle(const shared_ptr<ListNode<int>>& head) {
   // TODO - you fill in here.
+  shared_ptr<ListNode<int>> fast = head; shared_ptr<ListNode<int>> slow = head;
+
+  while(fast && fast->next) {
+    fast = fast->next->next;
+    slow = slow->next;
+    if(fast == slow) {
+#ifdef BOOK_ADDITION
+      int count = 0;
+      do {
+        count++;
+        fast = fast->next;
+      } while(fast != slow);
+
+      auto fast_iter_head = head;
+
+      while(count--) {
+        fast_iter_head = fast_iter_head->next;
+      }
+
+      auto iter_head = head;
+      while(iter_head != fast_iter_head) {
+        iter_head = iter_head->next;
+        fast_iter_head = fast_iter_head->next;
+      }
+      std::cout << "\nCycle starts at " << iter_head->data << std::endl;
+      return iter_head;
+#else
+      return fast;
+#endif
+    }
+  }
+
   return nullptr;
 }
 void HasCycleWrapper(TimedExecutor& executor,

@@ -1,9 +1,9 @@
 #include "list_node.h"
 #include "test_framework/generic_test.h"
-//#define BRUTE_FORCE
+#define BRUTE_FORCE
 //#define BRUTE_FORCE_2 //DOESNT WORK
-void ReverseList(shared_ptr<ListNode<int>> prev_start, shared_ptr<ListNode<int>> * start, shared_ptr<ListNode<int>> * end );
-void ReverseList2(shared_ptr<ListNode<int>> * prev_start, shared_ptr<ListNode<int>> * start, shared_ptr<ListNode<int>> *end, int count );
+void ReverseList(shared_ptr<ListNode<int>> prev_start, shared_ptr<ListNode<int>> & start, shared_ptr<ListNode<int>> & end );
+void ReverseList2(shared_ptr<ListNode<int>> & prev_start, shared_ptr<ListNode<int>> & start, shared_ptr<ListNode<int>> & end, int count );
 
 shared_ptr<ListNode<int>> ReverseSublist(shared_ptr<ListNode<int>> L, int start,
                                          int finish) {
@@ -18,10 +18,11 @@ shared_ptr<ListNode<int>> ReverseSublist(shared_ptr<ListNode<int>> L, int start,
     traveler = traveler->next;
   }
 
-  ReverseList(prev, &start_node, &end_node);
+  ReverseList(prev, start_node, end_node);
   if(prev) prev->next = start_node;
   else L = start_node;
   return L;
+
 #elif defined BRUTE_FORCE_2
   auto prev = make_shared<ListNode<int>>(ListNode<int>{0, L}), start_node = L, end_node = L, traveler = L;
   for(int i = 1; i <= finish; i++) {
@@ -31,10 +32,12 @@ shared_ptr<ListNode<int>> ReverseSublist(shared_ptr<ListNode<int>> L, int start,
     traveler = traveler->next;
   }
 
-  ReverseList2(&prev, &start_node, &end_node, finish-start);
+  ReverseList2(prev, start_node, end_node, finish-start);
 
   return prev->next;
 #else
+  //This is the book's implementation. Very clean, but need to work on pointer
+  //Logic
   auto dummy_head = make_shared<ListNode<int>>(ListNode<int>{0, L});
   auto sublist_head = dummy_head;
   int k = 1;
@@ -65,9 +68,9 @@ void ReverseList2(shared_ptr<ListNode<int>> * prev_start, shared_ptr<ListNode<in
   } 
 }
 
-void ReverseList(shared_ptr<ListNode<int>> prev_start, shared_ptr<ListNode<int>> * start, shared_ptr<ListNode<int>> * end ) {
-  shared_ptr<ListNode<int>> prev = prev_start, curr = *start, temp = nullptr;
-  while(curr && prev != *end) {
+void ReverseList(shared_ptr<ListNode<int>> prev_start, shared_ptr<ListNode<int>> & start, shared_ptr<ListNode<int>> & end ) {
+  shared_ptr<ListNode<int>> prev = prev_start, curr = start, temp = nullptr;
+  while(curr && prev != end) {
     //Update pointers
     temp = curr->next;
     curr->next = prev;
@@ -75,8 +78,8 @@ void ReverseList(shared_ptr<ListNode<int>> prev_start, shared_ptr<ListNode<int>>
     curr = temp;
   }
   if(prev_start) prev_start->next = prev;
-  (*start)->next = curr;
-  *start = prev;
+  start->next = curr;
+  start = prev;
 }
 
 

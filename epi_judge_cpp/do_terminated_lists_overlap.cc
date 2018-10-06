@@ -8,6 +8,45 @@ using std::shared_ptr;
 shared_ptr<ListNode<int>> OverlappingNoCycleLists(
     shared_ptr<ListNode<int>> l0, shared_ptr<ListNode<int>> l1) {
   // TODO - you fill in here.
+  if(l0 == nullptr && l1 == nullptr) {
+    return nullptr;
+  }
+
+  shared_ptr<ListNode<int>> L0_header = l0, L1_header = l1;
+  long L0_length = 0, L1_length = 0; 
+  while(L0_header && L0_header->next) {
+    L0_header = L0_header->next;
+    L0_length++;
+  }
+
+  while(L1_header && L1_header->next) {
+    L1_header = L1_header->next;
+    L1_length++;
+  }
+
+  if(L0_header == L1_header) {
+    L0_header = l0; L1_header = l1;
+    long l0_length_copy = L0_length; long l1_length_copy = L1_length;
+    if(L0_length > L1_length) {
+      while(l0_length_copy-- > L1_length) {
+        L0_header = L0_header->next;
+      }
+    }
+
+    if(L1_length > L0_length) {
+      while(l1_length_copy-- > L0_length) {
+        L1_header = L1_header->next;
+      }
+    }
+
+    while(L1_header != L0_header) {
+      L0_header = L0_header->next;
+      L1_header = L1_header->next;
+    }
+
+    return L1_header;
+  }
+
   return nullptr;
 }
 void OverlappingNoCycleListsWrapper(TimedExecutor& executor,

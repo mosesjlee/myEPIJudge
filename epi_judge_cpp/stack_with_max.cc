@@ -2,24 +2,40 @@
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 #include "test_framework/test_failure.h"
+#include <stack>
+#include <tuple>
 using std::length_error;
 
 class Stack {
- public:
+  std::stack<std::tuple<int,int>> storage;
+  int max_val = INT_MIN;
+public:
   bool Empty() const {
     // TODO - you fill in here.
-    return true;
+    return storage.empty();
   }
   int Max() const {
     // TODO - you fill in here.
-    return 0;
+    if(storage.empty()) {
+      throw length_error("EMPTY STACK");
+    }
+    return max_val;
   }
   int Pop() {
     // TODO - you fill in here.
-    return 0;
+    std::tuple<int, int> popped = storage.top();
+    storage.pop();
+    int retval = std::get<0>(popped);
+    int cached_max = std::get<1>(popped);
+    if(retval == max_val) {
+      max_val = cached_max;
+    }
+    return retval;
   }
   void Push(int x) {
     // TODO - you fill in here.
+    storage.push(std::make_tuple(x, max_val));
+    max_val = fmax(max_val, x);
     return;
   }
 };

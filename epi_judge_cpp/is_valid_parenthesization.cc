@@ -4,11 +4,8 @@
 using std::string;
 bool IsWellFormed(const string& s) {
   // TODO - you fill in here.
-  int count = 0;
   std::stack<char> expression;
-  while(count < s.length()) {
-    char paren = s[count++];
-    
+  for(char paren : s) {  
     switch (paren) {
       case ')': {
         if(expression.empty() || expression.top() != '(') return false;
@@ -30,7 +27,6 @@ bool IsWellFormed(const string& s) {
       break;
     }
   }
-
   return expression.empty();
 }
 

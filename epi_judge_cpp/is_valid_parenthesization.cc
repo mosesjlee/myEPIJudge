@@ -1,9 +1,37 @@
 #include <string>
 #include "test_framework/generic_test.h"
+#include <stack>
 using std::string;
 bool IsWellFormed(const string& s) {
   // TODO - you fill in here.
-  return true;
+  int count = 0;
+  std::stack<char> expression;
+  while(count < s.length()) {
+    char paren = s[count++];
+    
+    switch (paren) {
+      case ')': {
+        if(expression.empty() || expression.top() != '(') return false;
+        expression.pop();
+      }
+      break;
+      case '}': {
+        if(expression.empty() || expression.top() != '{') return false;
+        expression.pop();
+      }
+      break;
+      case ']': {
+        if(expression.empty() || expression.top() != '[') return false;
+        expression.pop();
+      }
+      break;
+      default:
+        expression.push(paren);
+      break;
+    }
+  }
+
+  return expression.empty();
 }
 
 int main(int argc, char* argv[]) {

@@ -1,20 +1,60 @@
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 #include "test_framework/test_failure.h"
+#include <memory>
 class Queue {
- public:
-  Queue(size_t capacity) {}
+  int * array;
+  size_t size;
+  size_t my_capacity;
+  int head;
+  int tail;
+public:
+  Queue(size_t capacity) {
+    my_capacity = capacity;
+    array = new int[my_capacity];
+    size = 0;
+    head = 0;
+    tail = 0;
+  }
+
+  ~Queue() {
+    delete [] array;
+  }
+
   void Enqueue(int x) {
     // TODO - you fill in here.
-    return;
+    //The resizing
+    if(size == my_capacity) {
+      int * temp = new int [my_capacity*2];
+
+      //Need to reset the positions of the elements
+      int tracker = head; 
+      for(int i = 0; i < size; i++) {
+        temp[i] = array[tracker];
+        tracker = (tracker + 1) % my_capacity;
+      }
+      delete [] array;
+      array = temp;
+      my_capacity *= 2;
+
+      //Reset head and tail
+      head = 0; tail = size;
+    }
+    array[tail] = x;
+    tail = ((tail + 1) % my_capacity);
+    ++size;
   }
+
   int Dequeue() {
     // TODO - you fill in here.
-    return 0;
+    int retval = array[head];
+    head = (head + 1) % my_capacity;
+    --size;
+    return retval;
   }
   int Size() const {
     // TODO - you fill in here.
-    return 0;
+    return size;
   }
 };
 struct QueueOp {

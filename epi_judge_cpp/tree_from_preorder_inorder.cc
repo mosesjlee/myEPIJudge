@@ -2,37 +2,79 @@
 #include "binary_tree_node.h"
 #include "test_framework/binary_tree_utils.h"
 #include "test_framework/generic_test.h"
+#include <unordered_map>
 using std::vector;
 
-#define BRUTE_FORCE
+
+//#define BRUTE_FORCE
+#define WITHOUT_TEMP_VECTOR
+
 
 BinaryTreeNode<int> * BinaryTreeFromPreorderInorderHelper(const vector<int>& preorder, const vector<int>& inorder, int & preorder_index);
-BinaryTreeNode<int> * BTFromPreorderInorderHelperWithoutExtraVectors(const vector<int>& preorder, const vector<int>& inorder, int & preorder_index);
+BinaryTreeNode<int> * BTFromPreorderInorderHelperWithoutExtraVectors(const vector<int>& preorder, 
+                                                                     const vector<int>& inorder, 
+                                                                     int & preorder_index, int inorder_start, int inorder_end);
+BinaryTreeNode<int> * BTPreorderInorderHelperWithoutExtraVectorsWithHash(const vector<int>& preorder, 
+                                                                         const vector<int>& inorder,
+                                                                         const std::unordered_map<int, int> & hash_table, 
+                                                                         int & preorder_index, int inorder_start, int inorder_end);
 
 unique_ptr<BinaryTreeNode<int>> BinaryTreeFromPreorderInorder(
     const vector<int>& preorder, const vector<int>& inorder) {
   // TODO - you fill in here.
 #ifdef BRUTE_FORCE
+#pragma message ("BRUTE FORCE")
   int preorder_index = 0;
   return unique_ptr<BinaryTreeNode<int>>(BinaryTreeFromPreorderInorderHelper(preorder, inorder, preorder_index));
-#else
+
+#elif defined WITHOUT_TEMP_VECTOR
+
+#pragma message ("WITHOUT TEMP VECTOR")
   int preorder_index = 0;
-  return unique_ptr<BinaryTreeNode<int>>(BinaryTreeFromPreorderInorderHelper2(preorder, inorder, preorder_index));
- #endif
-}
+  int inorder_start = 0;
+  int inorder_end = inorder.size();
+  return unique_ptr<BinaryTreeNode<int>>(BTFromPreorderInorderHelperWithoutExtraVectors(preorder, inorder, preorder_index, inorder_start, inorder_end));
+#else
 
-void print_vector(const vector<int>& v) {
-  for(int i : v) {
-    std::cout << i << " ,";
+#pragma message ("WITHOUT TEMP VECTOR AND WITH HASH TABLE")
+  std::unordered_map<int, int> hash_table;
+  for(int i = 0; i < inorder.size(); i++) {
+    hash_table[inorder[i]] = i;
   }
-  std::cout << std::endl;
+
+  int preorder_index = 0;
+  int inorder_start = 0;
+  int inorder_end = inorder.size();
+  return unique_ptr<BinaryTreeNode<int>>(BTPreorderInorderHelperWithoutExtraVectorsWithHash(preorder, inorder, hash_table, preorder_index, inorder_start, inorder_end));
+#endif
 }
 
+#pragma mark THIRD_ATTEMPT
+BinaryTreeNode<int> * BTPreorderInorderHelperWithoutExtraVectorsWithHash(const vector<int>& preorder, 
+                                                                         const vector<int>& inorder,
+                                                                         const std::unordered_map<int, int> & hash_table, 
+                                                                         int & preorder_index, int inorder_start, int inorder_end)
+{
+  if(inorder_start == inorder_end) return nullptr;
+  
+  BinaryTreeNode<int> * root = new BinaryTreeNode<int>(preorder[preorder_index++]);
+  if((inorder_end - inorder_start) == 1) return root;
 
+  int root_index = hash_table.at(root->data);
 
-int get_index_of_element(const vector<int> & v, int elem) {
-  int retval = -1;
-  for(int i = 0; i < v.size(); i++) {
+  BinaryTreeNode<int> * left = BTFromPreorderInorderHelperWithoutExtraVectors(preorder, inorder, preorder_index, inorder_start, root_index);
+  root->left.reset(left);
+
+  BinaryTreeNode<int> * right = BTFromPreorderInorderHelperWithoutExtraVectors(preorder, inorder, preorder_index, root_index+1, inorder_end);
+  root->right.reset(right);
+
+  return root;
+}
+
+#pragma mark SECOND_ATTEMPT
+int get_index_of_element_w_start(const vector<int> & v, int start, int elem) {
+  int retval = 0;
+  for(int i = start; i < v.size(); i++) {
     if(elem == v[i]) {
       retval = i;
       break;
@@ -45,23 +87,37 @@ BinaryTreeNode<int> * BTFromPreorderInorderHelperWithoutExtraVectors(const vecto
                                                                      const vector<int>& inorder, 
                                                                      int & preorder_index, int inorder_start, int inorder_end)
 {
+  if(inorder_start == inorder_end) return nullptr;
   
-  BinaryTreeNode<int> * root = new BinaryTreeNode<int>(preorder[0]);
-  int root_val = root->data;
-  int root_index = get_index_of_element(inorder, root_val);
+  BinaryTreeNode<int> * root = new BinaryTreeNode<int>(preorder[preorder_index++]);
+  if((inorder_end - inorder_start) == 1) return root;
 
-  auto left = BTFromPreorderInorderHelperWithoutExtraVectors(preorder);
+  int root_index = get_index_of_element_w_start(inorder, inorder_start, root->data);
+
+  BinaryTreeNode<int> * left = BTFromPreorderInorderHelperWithoutExtraVectors(preorder, inorder, preorder_index, inorder_start, root_index);
   root->left.reset(left);
 
-  auto right = BTFromPreorderInorderHelperWithoutExtraVectors(preorder);
+  BinaryTreeNode<int> * right = BTFromPreorderInorderHelperWithoutExtraVectors(preorder, inorder, preorder_index, root_index+1, inorder_end);
   root->right.reset(right);
 
   return root;
 }
 
+#pragma mark FIRST_ATTEMPT
 vector<int> get_subvector(const vector<int> & v, int start, int end) {
   if(start >= end) return {};
   return vector<int>(v.begin()+start, v.begin()+end);
+}
+
+int get_index_of_element(const vector<int> & v, int elem) {
+  int retval = 0;
+  for(int i = 0; i < v.size(); i++) {
+    if(elem == v[i]) {
+      retval = i;
+      break;
+    }
+  }
+  return retval;
 }
 
 BinaryTreeNode<int> * BinaryTreeFromPreorderInorderHelper(
@@ -70,8 +126,7 @@ BinaryTreeNode<int> * BinaryTreeFromPreorderInorderHelper(
     return nullptr;
   }
 
-  BinaryTreeNode<int> * root = new BinaryTreeNode<int>(preorder[preorder_index]);
-  preorder_index++;
+  BinaryTreeNode<int> * root = new BinaryTreeNode<int>(preorder[preorder_index++]);
   if(inorder.size() == 1) {
     return root;
   }

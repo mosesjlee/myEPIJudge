@@ -34,7 +34,10 @@ vector<int> MergeSortedArrays(const vector<vector<int>>& sorted_arrays) {
   int max_size = sorted_arrays[0].size();
 
   //Take advantage of already sorted arrays
-  //Idea is that 
+  //Idea is that insert elements from each array
+  //and take the pop from top becasue that is the 
+  //smallest of the three
+  //Need to rethink this through
   for(int i = 0; i < max_size; i++) {
     
     for(vector<int> v : sorted_arrays) {

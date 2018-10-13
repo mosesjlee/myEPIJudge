@@ -20,8 +20,36 @@ vector<Star> FindClosestKStars(vector<Star>::const_iterator stars_begin,
                                const vector<Star>::const_iterator& stars_end,
                                int k) {
   // TODO - you fill in here.
-  return {};
+  vector<Star> retval;
+
+#ifdef EXPLICIT_DEF
+  std::priority_queue<Star, vector<Star>, std::function<bool(Star, Star)>>
+  max_heap([](const Star & a, const Star & b){
+    return a.Distance() < b.Distance();
+  });
+#else
+  std::priority_queue<Star> max_heap;
+#endif
+
+  for(int i = 0; i < k; i++) {
+    max_heap.push(*stars_begin++);
+  }
+
+  while(stars_begin != stars_end) {
+    if(stars_begin->Distance() < max_heap.top().Distance()){
+      max_heap.pop();
+      max_heap.push(*stars_begin);
+    }
+    stars_begin++;
+  }
+
+  while(!max_heap.empty()) {
+    retval.emplace_back(max_heap.top());
+    max_heap.pop();
+  }
+  return retval;
 }
+
 template <>
 struct SerializationTraits<Star> : UserSerTraits<Star, double, double, double> {
 };

@@ -18,11 +18,11 @@ unique_ptr<BinaryTreeNode<int>> BinaryTreeFromPreorderInorderHelper(
 unique_ptr<BinaryTreeNode<int>> BinaryTreeFromPreorderInorder(
     const vector<int>& preorder, const vector<int>& inorder) {
   unordered_map<int, size_t> node_to_inorder_idx;
-  for (size_t i = 0; i < size(inorder); ++i) {
+  for (size_t i = 0; i < inorder.size(); ++i) {
     node_to_inorder_idx.emplace(inorder[i], i);
   }
   return BinaryTreeFromPreorderInorderHelper(
-      preorder, 0, size(preorder), 0, size(inorder), node_to_inorder_idx);
+      preorder, 0, preorder.size(), 0, inorder.size(), node_to_inorder_idx);
 }
 
 // Builds the subtree with preorder[preorder_start, preorder_end - 1] and

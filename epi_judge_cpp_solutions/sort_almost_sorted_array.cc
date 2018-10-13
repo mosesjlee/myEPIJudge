@@ -28,7 +28,7 @@ vector<int> SortApproximatelySortedData(
   }
 
   // sequence is exhausted, iteratively extracts the remaining elements.
-  while (!empty(min_heap)) {
+  while (!min_heap.empty()) {
     result.push_back(min_heap.top());
     min_heap.pop();
   }

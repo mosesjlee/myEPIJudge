@@ -24,14 +24,14 @@ vector<int> MergeSortedArrays(const vector<vector<int>>& sorted_arrays) {
       min_heap;
 
   for (const vector<int>& sorted_array : sorted_arrays) {
-    if (!empty(sorted_array)) {
+    if (!sorted_array.empty()) {
       min_heap.emplace(
           IteratorCurrentAndEnd{cbegin(sorted_array), cend(sorted_array)});
     }
   }
 
   vector<int> result;
-  while (!empty(min_heap)) {
+  while (!min_heap.empty()) {
     IteratorCurrentAndEnd smallest_array = min_heap.top();
     min_heap.pop();
     result.emplace_back(*smallest_array.current);

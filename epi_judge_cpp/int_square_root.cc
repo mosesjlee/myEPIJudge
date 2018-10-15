@@ -6,7 +6,7 @@ int SquareRoot(int k) {
 #ifdef BRUTE_FORCE
 #pragma message ("BRUTE FORCE")
   long upper_k = k;
-  while(upper_k * upper_k > k) {
+  while(upper_k * upper_k > k) { 
     upper_k /=2;
   }
   while(upper_k * upper_k < k) {
@@ -20,7 +20,7 @@ int SquareRoot(int k) {
 #pragma message ("OPTIMIZE")  
   long left = 0, right = k;
   while(left <= right) {
-    long mid = left + (right - left)/2;
+    long mid = left + (right - left)/2; //This is the divide 2 part
     if(mid * mid > k) {
       right = mid - 1;
     }

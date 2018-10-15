@@ -17,14 +17,14 @@ int SearchFirstOfK(const vector<int>& A, int k) {
     long mid = low + ((high - low)/2);
     
     if(mid != 0 && k < A[mid]) {
-      high = mid-1;
+      high = mid-1; //mid - 1 becuase you already checked mid
     }
     else if(k == A[mid]) {
       index = mid;
-      high = mid-1;
+      high = mid-1; //mid - 1 becuase you already checked mid
     }
     else {
-      low = mid+1;
+      low = mid+1; //mid + 1 because you already checked mid
     }
   }
   return index;

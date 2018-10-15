@@ -7,6 +7,7 @@ int SearchSmallest(const vector<int>& A) {
   long left = 0, right = A.size()-1;
   long retval = 0;
 #ifdef BRUTE_FORCE
+  
   while(left <= right) {
     if(A[left] > A[right]) {
       left++; right--;
@@ -21,7 +22,9 @@ int SearchSmallest(const vector<int>& A) {
   }
 
  if(left > right) retval = left;
+
 #else
+
   while(left < right) {
     int mid = left + (right - left)/2;
     if(A[mid] > A[right]) {

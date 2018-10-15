@@ -23,7 +23,8 @@ double SquareRoot(double x) {
   // Keeps searching as long as left != right, within tolerance.
   while (Compare(left, right) != kEqual) {
     double mid = left + 0.5 * (right - left);
-    if (double mid_squared = mid * mid; Compare(mid_squared, x) == kLarger) {
+    double mid_squared = mid * mid;
+    if (mid_squared && Compare(mid_squared, x) == kLarger) {
       right = mid;
     } else {
       left = mid;

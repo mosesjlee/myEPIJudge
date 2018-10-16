@@ -37,14 +37,14 @@ template <typename Compare>
 int FindKth(int k, Compare comp, vector<int>* A_ptr) {
   vector<int>& A = *A_ptr;
   int left = 0, right = A.size() - 1;
+  int retval = -1;
   default_random_engine gen((random_device())());
   while (left <= right) {
     // Generates a random integer in [left, right].
     int pivot_idx = uniform_int_distribution<int>{left, right}(gen);
     int new_pivot_idx = PartitionAroundPivot(left, right, pivot_idx, comp, &A);
-    if (new_pivot_idx &&
-        new_pivot_idx == k - 1) {
-      return A[new_pivot_idx];
+    if (new_pivot_idx && new_pivot_idx == k - 1) {
+      retval = A[new_pivot_idx];
     } else if (new_pivot_idx > k - 1) {
       right = new_pivot_idx - 1;
     } else {  // new_pivot_idx < k - 1.
@@ -52,7 +52,8 @@ int FindKth(int k, Compare comp, vector<int>* A_ptr) {
     }
   }
 
-  throw length_error("no k-th node in array A");
+  //throw length_error("no k-th node in array A");
+  return retval;
 }
 
 // Partition A[left, right] around pivot_idx, returns the new index of the

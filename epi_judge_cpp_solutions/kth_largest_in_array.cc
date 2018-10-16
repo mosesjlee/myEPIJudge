@@ -36,14 +36,13 @@ int FindKthSmallest(int k, vector<int>* A_ptr) {
 template <typename Compare>
 int FindKth(int k, Compare comp, vector<int>* A_ptr) {
   vector<int>& A = *A_ptr;
-  int left = 0, right = size(A) - 1;
+  int left = 0, right = A.size() - 1;
   default_random_engine gen((random_device())());
   while (left <= right) {
     // Generates a random integer in [left, right].
     int pivot_idx = uniform_int_distribution<int>{left, right}(gen);
-
-    if (int new_pivot_idx =
-            PartitionAroundPivot(left, right, pivot_idx, comp, &A);
+    int new_pivot_idx = PartitionAroundPivot(left, right, pivot_idx, comp, &A);
+    if (new_pivot_idx &&
         new_pivot_idx == k - 1) {
       return A[new_pivot_idx];
     } else if (new_pivot_idx > k - 1) {

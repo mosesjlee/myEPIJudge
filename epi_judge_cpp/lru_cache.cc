@@ -1,22 +1,72 @@
 #include <vector>
+#include <utility>
+#include <list>
+#include <unordered_map>
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 #include "test_framework/test_failure.h"
 
+struct ISBNInfo {
+  int price;
+  bool recently_used;
+};
+
 class LruCache {
- public:
-  LruCache(size_t capacity) {}
+private:
+  std::unordered_map<int, std::pair<std::list<int>::iterator, int>> ISBNRecords;
+  std::list<int> lru_queue;
+  size_t my_capacity;
+
+  void MoveFront(int isbn, std::unordered_map<int, std::pair<std::list<int>::iterator, int>>::iterator it) {
+    lru_queue.erase(it->second.first);
+    lru_queue.emplace_front(isbn);
+    it->second.first = lru_queue.begin();
+  }
+
+public:
+  LruCache(size_t capacity) {
+    my_capacity = capacity;
+  }
+
   int Lookup(int isbn) {
     // TODO - you fill in here.
-    return 0;
+    auto it = ISBNRecords.find(isbn);
+    if (it != ISBNRecords.end()) {
+      MoveFront(isbn, it);
+      return it->second.second;
+    }
+    else {
+      return -1;
+    }
   }
   void Insert(int isbn, int price) {
     // TODO - you fill in here.
+    auto it = ISBNRecords.find(isbn);
+    if(it != ISBNRecords.end()) {
+      MoveFront(isbn, it);
+    }
+    else {
+      if(ISBNRecords.size() == my_capacity) {
+        //Kick out the least recently used
+        ISBNRecords.erase(lru_queue.back());
+        lru_queue.pop_back();
+      }
+      lru_queue.emplace_front(isbn);
+      ISBNRecords[isbn] = {lru_queue.begin(), price};
+    }
     return;
   }
   bool Erase(int isbn) {
     // TODO - you fill in here.
-    return true;
+    auto it = ISBNRecords.find(isbn);
+    if(it != ISBNRecords.end()) {
+      lru_queue.erase(it->second.first);
+      ISBNRecords.erase(isbn);
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 };
 struct Op {

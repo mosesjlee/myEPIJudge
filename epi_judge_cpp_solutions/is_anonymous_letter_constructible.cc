@@ -16,12 +16,12 @@ bool IsLetterConstructibleFromMagazine(const string& letter_text,
   // Check if the characters in magazine_text can cover characters
   // in char_frequency_for_letter.
   for (char c : magazine_text) {
-    if (auto it = char_frequency_for_letter.find(c);
-        it != cend(char_frequency_for_letter)) {
+    auto it = char_frequency_for_letter.find(c);
+    if (it != cend(char_frequency_for_letter)) {
       --it->second;
       if (it->second == 0) {
         char_frequency_for_letter.erase(it);
-        if (empty(char_frequency_for_letter)) {
+        if (char_frequency_for_letter.empty()) {
           // All characters for letter_text are matched.
           break;
         }
@@ -30,7 +30,7 @@ bool IsLetterConstructibleFromMagazine(const string& letter_text,
   }
   // Empty char_frequency_for_letter means every char in letter_text can be
   // covered by a character in magazine_text.
-  return empty(char_frequency_for_letter);
+  return char_frequency_for_letter.empty();
 }
 
 // clang-format off

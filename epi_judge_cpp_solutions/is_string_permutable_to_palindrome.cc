@@ -18,7 +18,7 @@ bool CanFormPalindrome(const string& s) {
   }
   // A string can be permuted to form a palindrome if and only if the number
   // of chars whose frequencies is odd is at most 1.
-  return size(chars_with_odd_frequency) <= 1;
+  return chars_with_odd_frequency.size() <= 1;
 }
 
 int main(int argc, char* argv[]) {

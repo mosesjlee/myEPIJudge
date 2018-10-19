@@ -7,6 +7,7 @@
 using std::string;
 using std::unordered_set;
 using std::vector;
+#define BRUTE_FORCE
 
 struct Subarray {
   int start, end;
@@ -15,7 +16,63 @@ struct Subarray {
 Subarray FindSmallestSubarrayCoveringSet(
     const vector<string> &paragraph, const unordered_set<string> &keywords) {
   // TODO - you fill in here.
-  return {0, 0};
+#ifdef BRUTE_FORCE
+#pragma message ("BRUTE FORCE")
+  Subarray retval = {0,0};
+  int shortest = INT_MAX;
+  std::unordered_set<string> word_set;
+
+  for(int i = 0; i < paragraph.size(); i++) {
+    for(string s : keywords) {
+      word_set.insert(s);
+    }
+    for(int j = i; j < paragraph.size(); j++) {
+      if(word_set.count(paragraph[j])) {
+        word_set.erase(paragraph[j]);
+      }
+      if(word_set.empty()) {
+        int dist = j-i;
+        if(dist < shortest) {
+          shortest = dist;
+          retval.start = i;
+          retval.end = j;
+        }
+        break;
+      }
+    }
+  }
+
+  return retval;
+#else
+#pragma message ("ATTEMPT TO OPTIMIZE FORCE")
+  Subarray retval = {0,0};
+  int shortest = INT_MAX;
+  std::unordered_set<string> word_set;
+  int end_idx = 0;
+
+  for(int i = end_idx; i < paragraph.size(); i++) {
+    for(string s : keywords) {
+      word_set.insert(s);
+    }
+    for(int j = i; j < paragraph.size(); j++) {
+      if(word_set.count(paragraph[j])) {
+        word_set.erase(paragraph[j]);
+      }
+
+      if(word_set.empty()) {
+        int dist = end_idx-i;
+        if(dist < shortest) {
+          shortest = dist;
+          retval.start = i;
+          retval.end = end_idx;
+        }
+        break;
+      }
+    }
+  }
+
+  return retval;
+#endif  
 }
 int FindSmallestSubarrayCoveringSetWrapper(
     TimedExecutor &executor, const vector<string> &paragraph,

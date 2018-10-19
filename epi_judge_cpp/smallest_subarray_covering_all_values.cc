@@ -3,6 +3,7 @@
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
+#include <unordered_set>
 using std::string;
 using std::vector;
 
@@ -14,7 +15,7 @@ struct Subarray {
 Subarray FindSmallestSequentiallyCoveringSubset(
     const vector<string>& paragraph, const vector<string>& keywords) {
   // TODO - you fill in here.
-  return {0, 0};
+  return {0,0}
 }
 int FindSmallestSequentiallyCoveringSubsetWrapper(
     TimedExecutor& executor, const vector<string>& paragraph,

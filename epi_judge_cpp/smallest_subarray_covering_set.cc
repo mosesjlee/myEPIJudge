@@ -1,5 +1,6 @@
 #include <string>
 #include <unordered_set>
+#include <unordered_map>
 #include <vector>
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
@@ -7,7 +8,7 @@
 using std::string;
 using std::unordered_set;
 using std::vector;
-#define BRUTE_FORCE
+//#define BRUTE_FORCE
 
 struct Subarray {
   int start, end;
@@ -45,32 +46,48 @@ Subarray FindSmallestSubarrayCoveringSet(
   return retval;
 #else
 #pragma message ("ATTEMPT TO OPTIMIZE FORCE")
-  Subarray retval = {0,0};
-  int shortest = INT_MAX;
-  std::unordered_set<string> word_set;
-  int end_idx = 0;
-
-  for(int i = end_idx; i < paragraph.size(); i++) {
-    for(string s : keywords) {
-      word_set.insert(s);
-    }
-    for(int j = i; j < paragraph.size(); j++) {
-      if(word_set.count(paragraph[j])) {
-        word_set.erase(paragraph[j]);
-      }
-
-      if(word_set.empty()) {
-        int dist = end_idx-i;
-        if(dist < shortest) {
-          shortest = dist;
-          retval.start = i;
-          retval.end = end_idx;
-        }
-        break;
-      }
-    }
+  Subarray retval = {-1,-1};
+  int num_of_keywords = keywords.size();
+  std::unordered_map<string, int> keyword_set;
+  for(string s : keywords) {
+    keyword_set[s] = 1;
   }
+  int shortest = INT_MAX;
+  int look_ahead = 0; int catch_up = 0;
+  for(; look_ahead < paragraph.size(); look_ahead++) {
+    if(keyword_set.count(paragraph[look_ahead])) {
+      //If found decrement it to keep track of
+      //this key found
+      keyword_set[paragraph[look_ahead]]--;
 
+      //Only say that we found it and increment it
+      //when we see the first instance
+      if(keyword_set[paragraph[look_ahead]] == 0)
+        num_of_keywords--;
+    }
+
+    while(0 == num_of_keywords) {
+      
+      if(keyword_set.count(paragraph[catch_up])) {
+        if(keyword_set[paragraph[catch_up]] < 1) {
+          keyword_set[paragraph[catch_up]]++;
+
+          //If its the last in this set we have to look
+          //For another 1
+          if(keyword_set[paragraph[catch_up]] == 1) {
+            num_of_keywords++;
+          }
+        }
+
+        if((look_ahead-catch_up) < shortest) {
+          shortest = (look_ahead-catch_up);
+          retval.start = catch_up;
+          retval.end = look_ahead;
+        }
+      }
+      catch_up++;
+    } 
+  }
   return retval;
 #endif  
 }

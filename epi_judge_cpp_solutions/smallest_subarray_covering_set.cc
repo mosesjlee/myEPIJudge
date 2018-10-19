@@ -24,8 +24,8 @@ Subarray FindSmallestSubarrayCoveringSet(
   }
 
   Subarray result = Subarray{-1, -1};
-  int remaining_to_cover = size(keywords);
-  for (int left = 0, right = 0; right < size(paragraph); ++right) {
+  int remaining_to_cover = keywords.size();
+  for (int left = 0, right = 0; right < paragraph.size(); ++right) {
     if (keywords.count(paragraph[right]) &&
         --keywords_to_cover[paragraph[right]] >= 0) {
       --remaining_to_cover;

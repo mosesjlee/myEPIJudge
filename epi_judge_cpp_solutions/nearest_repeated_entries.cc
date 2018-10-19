@@ -15,11 +15,10 @@ using std::vector;
 int FindNearestRepetition(const vector<string>& paragraph) {
   unordered_map<string, int> word_to_latest_index;
   int nearest_repeated_distance = numeric_limits<int>::max();
-  for (int i = 0; i < size(paragraph); ++i) {
-    if (auto latest_equal_word = word_to_latest_index.find(paragraph[i]);
-        latest_equal_word != end(word_to_latest_index)) {
-      nearest_repeated_distance =
-          min(nearest_repeated_distance, i - latest_equal_word->second);
+  for (int i = 0; i < paragraph.size(); ++i) {
+    auto latest_equal_word = word_to_latest_index.find(paragraph[i]);
+    if (latest_equal_word != word_to_latest_index.end()) {
+      nearest_repeated_distance = min(nearest_repeated_distance, i - latest_equal_word->second);
     }
     word_to_latest_index[paragraph[i]] = i;
   }

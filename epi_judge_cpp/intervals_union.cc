@@ -3,7 +3,7 @@
 #include "test_framework/serialization_traits.h"
 #include "test_framework/timed_executor.h"
 using std::vector;
-
+//#define ITERATION_1
 struct Interval {
   struct Endpoint {
     bool is_closed;
@@ -15,7 +15,39 @@ struct Interval {
 
 vector<Interval> UnionOfIntervals(vector<Interval> intervals) {
   // TODO - you fill in here.
-  return {};
+  vector<Interval> retval;
+
+  std::sort(intervals.begin(), intervals.end(),[](const Interval & a, const Interval & b){
+    return a.left.val != b.left.val ? a.left.val < b.left.val : (a.left.is_closed && !b.left.is_closed);
+  });
+
+  int start_val = -1; int furthest_end_point = -1; 
+  bool start_closed = false; bool end_closed = false; 
+
+  for(Interval i : intervals) { 
+    if(i.left.val > furthest_end_point || (i.left.val == furthest_end_point && (!i.left.is_closed && !end_closed))) {
+      retval.emplace_back(Interval({{start_closed, start_val}, {end_closed, furthest_end_point}}));
+      start_val = i.left.val;
+      start_closed = i.left.is_closed;
+      furthest_end_point = i.right.val;
+      end_closed = i.right.is_closed;
+    } 
+    else { //i.left.val < furthest_end
+      if(furthest_end_point < i.right.val) {
+        furthest_end_point = i.right.val;
+        end_closed = i.right.is_closed;
+      }
+      else if(furthest_end_point == i.right.val) {
+        end_closed = i.right.is_closed ? i.right.is_closed : end_closed;
+      }
+    }
+  }
+
+  //For the final element
+  retval.emplace_back(Interval({{start_closed, start_val}, {end_closed, furthest_end_point}}));
+
+  //Skip the first element
+  return {retval.begin()+1, retval.end()};
 }
 struct FlatInterval {
   int left_val;

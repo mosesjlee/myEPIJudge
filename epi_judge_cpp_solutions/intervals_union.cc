@@ -19,7 +19,7 @@ struct Interval {
 
 vector<Interval> UnionOfIntervals(vector<Interval> intervals) {
   // Empty input.
-  if (empty(intervals)) {
+  if (intervals.empty()) {
     return {};
   }
 
@@ -35,7 +35,7 @@ vector<Interval> UnionOfIntervals(vector<Interval> intervals) {
        });
   vector<Interval> result;
   for (Interval i : intervals) {
-    if (!empty(result) &&
+    if (!result.empty() &&
         (i.left.val < result.back().right.val ||
          (i.left.val == result.back().right.val &&
           (i.left.is_closed || result.back().right.is_closed)))) {

@@ -4,6 +4,25 @@ using std::vector;
 
 void MergeTwoSortedArrays(vector<int>& A, int m, const vector<int>& B, int n) {
   // TODO - you fill in here.
+  int last_idx = m + n - 1;
+  int m_copy = m-1;
+  int n_copy = n-1;
+
+  while(m_copy > -1 && n_copy > -1) {
+    if(A[m_copy] > B[n_copy]) {
+      A[last_idx--] = A[m_copy--];
+    }
+    else {
+      A[last_idx--] = B[n_copy--];
+    }
+  }
+
+  //Copy the rest of B array because
+  //we iterated through all of A
+  while(n_copy > -1) {
+    A[last_idx--] = B[n_copy--];
+  }
+
   return;
 }
 vector<int> MergeTwoSortedArraysWrapper(vector<int> A, int m,

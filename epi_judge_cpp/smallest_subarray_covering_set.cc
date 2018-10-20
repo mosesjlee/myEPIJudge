@@ -67,7 +67,6 @@ Subarray FindSmallestSubarrayCoveringSet(
     }
 
     while(0 == num_of_keywords) {
-      
       if(keyword_set.count(paragraph[catch_up])) {
         if(keyword_set[paragraph[catch_up]] < 1) {
           keyword_set[paragraph[catch_up]]++;
@@ -79,6 +78,8 @@ Subarray FindSmallestSubarrayCoveringSet(
           }
         }
 
+        //Update only if its shorter
+        //Since this is still in the context of the set no additional checks are needed
         if((look_ahead-catch_up) < shortest) {
           shortest = (look_ahead-catch_up);
           retval.start = catch_up;

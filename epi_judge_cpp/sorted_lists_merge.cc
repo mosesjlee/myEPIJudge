@@ -4,6 +4,7 @@
 shared_ptr<ListNode<int>> MergeTwoSortedLists(shared_ptr<ListNode<int>> L1,
                                               shared_ptr<ListNode<int>> L2) {
   // TODO - you fill in here.
+#ifdef FIRST_ATTEMPT
   if(L1 == nullptr && L2 == nullptr) return nullptr;
   if(L1 == nullptr) return L2;
   if(L2 == nullptr) return L1;
@@ -26,6 +27,28 @@ shared_ptr<ListNode<int>> MergeTwoSortedLists(shared_ptr<ListNode<int>> L1,
   }
 
   return L1->data <= L2->data ? L1 : L2;
+#else
+  shared_ptr<ListNode<int>> dummy_head = make_shared<ListNode<int>>(ListNode<int>{0, nullptr});
+  shared_ptr<ListNode<int>> final_list_iter = dummy_head;
+
+  while(L1 && L2) {
+    if(L1->data < L2->data) {
+      final_list_iter->next = L1;
+      L1 = L1->next;
+    }
+    else {
+      final_list_iter->next = L2;
+      L2 = L2->next;
+    }
+    final_list_iter = final_list_iter->next;
+    final_list_iter->next = nullptr;
+  }
+
+  if(L1 != nullptr) final_list_iter->next = L1;
+  else if(L2 != nullptr) final_list_iter->next = L2;
+
+  return dummy_head->next;
+#endif  
 }
 
 int main(int argc, char* argv[]) {

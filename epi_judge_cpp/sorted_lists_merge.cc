@@ -28,6 +28,7 @@ shared_ptr<ListNode<int>> MergeTwoSortedLists(shared_ptr<ListNode<int>> L1,
 
   return L1->data <= L2->data ? L1 : L2;
 #else
+#pragma message ("SECOND ATTEMPT")
   shared_ptr<ListNode<int>> dummy_head = make_shared<ListNode<int>>(ListNode<int>{0, nullptr});
   shared_ptr<ListNode<int>> final_list_iter = dummy_head;
 

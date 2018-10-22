@@ -7,7 +7,17 @@ using std::vector;
 
 vector<int> InorderTraversal(const unique_ptr<BinaryTreeNode<int>>& tree) {
   // TODO - you fill in here.
-  return {};
+  vector<int> list;
+  if(tree == nullptr) return list;
+  auto left = InorderTraversal(tree->left);
+  list.insert(list.end(), left.begin(), left.end());
+
+  list.push_back(tree->data);
+
+  auto right = InorderTraversal(tree->right);
+  list.insert(list.end(), right.begin(), right.end());
+
+  return list;
 }
 
 int main(int argc, char* argv[]) {

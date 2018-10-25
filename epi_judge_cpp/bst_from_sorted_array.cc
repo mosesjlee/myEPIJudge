@@ -8,11 +8,26 @@
 using std::unique_ptr;
 using std::vector;
 
+BstNode<int> * SortedArrayTreeHelper(const vector<int> & A, int start, int end);
+
 unique_ptr<BstNode<int>> BuildMinHeightBSTFromSortedArray(
     const vector<int>& A) {
   // TODO - you fill in here.
-  return nullptr;
+  return unique_ptr<BstNode<int>>(SortedArrayTreeHelper(A, 0, A.size()));
 }
+
+BstNode<int> * SortedArrayTreeHelper(const vector<int> & A, int start, int end) {
+  if((end - start) == 0)
+    return nullptr;
+
+  int root_idx = (start + (end-start)/2);
+  BstNode<int> * root = new BstNode<int>(A[root_idx]);
+  root->left.reset(SortedArrayTreeHelper(A, start, root_idx));
+  root->right.reset(SortedArrayTreeHelper(A, root_idx+1, end));
+  return root;
+}
+
+
 int BuildMinHeightBSTFromSortedArrayWrapper(TimedExecutor& executor,
                                             const vector<int>& A) {
   unique_ptr<BstNode<int>> result =

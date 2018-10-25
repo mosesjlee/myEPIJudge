@@ -38,8 +38,8 @@ bool SearchMazeHelper(const Coordinate& cur, const Coordinate& e,
                       vector<Coordinate>* path_ptr) {
   auto& maze = *maze_ptr;
   // Checks cur is within maze and is a white pixel.
-  if (cur.x < 0 || cur.x >= size(maze) || cur.y < 0 ||
-      cur.y >= size(maze[cur.x]) || maze[cur.x][cur.y] != kWhite) {
+  if (cur.x < 0 || cur.x >= maze.size() || cur.y < 0 ||
+      cur.y >= maze[cur.x].size() || maze[cur.x][cur.y] != kWhite) {
     return false;
   }
   auto& path = *path_ptr;

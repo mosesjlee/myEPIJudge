@@ -21,13 +21,13 @@ void FlipColor(int x, int y, vector<deque<bool>>* image_ptr) {
   queue<pair<int, int>> q;
   image[x][y] = !color;  // Flips.
   q.emplace(x, y);
-  while (!empty(q)) {
+  while (!q.empty()) {
     const auto [x, y] = q.front();
     q.pop();
     for (const auto& [next_x, next_y] : initializer_list<pair<int, int>>{
              {x, y + 1}, {x, y - 1}, {x + 1, y}, {x - 1, y}}) {
-      if (next_x >= 0 && next_x < size(image) && next_y >= 0 &&
-          next_y < size(image[next_x]) && image[next_x][next_y] == color) {
+      if (next_x >= 0 && next_x < image.size() && next_y >= 0 &&
+          next_y < image[next_x].size() && image[next_x][next_y] == color) {
         // Flips the color.
         image[next_x][next_y] = !color;
         q.emplace(next_x, next_y);

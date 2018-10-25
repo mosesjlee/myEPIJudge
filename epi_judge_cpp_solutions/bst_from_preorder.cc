@@ -15,7 +15,7 @@ unique_ptr<BstNode<int>> RebuildBSTFromPreorderHelper(const vector<int>&, int,
 unique_ptr<BstNode<int>> RebuildBSTFromPreorder(
     const vector<int>& preorder_sequence) {
   return RebuildBSTFromPreorderHelper(preorder_sequence, 0,
-                                      size(preorder_sequence));
+                                      preorder_sequence.size());
 }
 
 // Builds a BST from preorder_sequence[start, end - 1].

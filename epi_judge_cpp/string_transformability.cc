@@ -5,6 +5,7 @@
 #include "test_framework/generic_test.h"
 using std::string;
 using std::unordered_set;
+#define BRUTE_FORCE
 
 bool OnlyOneCharDiff(string s1, string s2) {
   if(s1.length() != s2.length() || s1 == s2) return false;
@@ -34,17 +35,17 @@ int TransformString(unordered_set<string> D, const string& s, const string& t) {
   // TODO - you fill in here.
 #ifdef BRUTE_FORCE
   std::unordered_map<string, unordered_set<string>> word_graph;
-
+  unordered_set<string> D_copy(D);
   for(auto iter = D.begin(); iter != D.end(); iter++) {
     word_graph[*iter] = {};
-    for(auto iterDest = D.begin(); iterDest != D.end(); iterDest++) {
+    // D_copy.erase(*iter);
+    for(auto iterDest = D_copy.begin(); iterDest != D_copy.end(); iterDest++) {
       if(OnlyOneCharDiff(*iter, *iterDest)) {
         InsertToGraph(&word_graph, *iter, *iterDest);
       }
     }
   }
 
-  int distance = 0;
   std::queue<DistanceFromStart> to_visit_queue;
   to_visit_queue.emplace(DistanceFromStart{s, 0});
   
@@ -67,11 +68,10 @@ int TransformString(unordered_set<string> D, const string& s, const string& t) {
     }
   }
 
-  return distance == 0 ? distance - 1 : distance;
+  return - 1;
 #else
 
 #pragma message ("OPTIMIZED WITH BOOK")
-  int distance = 0;
   std::queue<DistanceFromStart> to_visit_queue;
   to_visit_queue.emplace(DistanceFromStart{s, 0});
   D.erase(s);
@@ -83,7 +83,6 @@ int TransformString(unordered_set<string> D, const string& s, const string& t) {
     }
     D.erase(curr.str);
     to_visit_queue.pop();
-    
     
     string str = curr.str;
     for(int i = 0; i < str.length(); i++) {
@@ -98,7 +97,7 @@ int TransformString(unordered_set<string> D, const string& s, const string& t) {
     }
   }
 
-  return distance == 0 ? distance - 1 : distance;
+  return -1;
 #endif
 }
 

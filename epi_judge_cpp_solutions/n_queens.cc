@@ -36,10 +36,10 @@ void SolveNQueens(int n, int row, vector<int>* col_placement,
 // Test if a newly placed queen will conflict any earlier queens
 // placed before.
 bool IsValid(const vector<int>& col_placement) {
-  int row_id = size(col_placement) - 1;
+  int row_id = col_placement.size() - 1;
   for (int i = 0; i < row_id; ++i) {
-    if (int diff = abs(col_placement[i] - col_placement[row_id]);
-        diff == 0 || diff == row_id - i) {
+    int diff = abs(col_placement[i] - col_placement[row_id]);
+    if (diff == 0 || diff == row_id - i) {
       // A column or diagonal constraint is violated.
       return false;
     }

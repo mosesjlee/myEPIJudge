@@ -13,11 +13,11 @@ int ComputeDistanceBetweenPrefixes(const string&, int, const string&, int,
                                    vector<vector<int>>*);
 
 int LevenshteinDistance(const string& A, const string& B) {
-  vector<vector<int>> distance_between_prefixes(size(A),
-                                                vector<int>(size(B), -1));
+  vector<vector<int>> distance_between_prefixes(A.size(),
+                                                vector<int>(B.size(), -1));
   return ComputeDistanceBetweenPrefixes(
-      A, size(A) - 1, B, size(B) - 1,
-      make_unique<vector<vector<int>>>(size(A), vector<int>(size(B), -1))
+      A, A.size() - 1, B, B.size() - 1,
+      make_unique<vector<vector<int>>>(A.size(), vector<int>(B.size(), -1))
           .get());
 }
 

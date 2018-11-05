@@ -21,8 +21,8 @@ struct Item {
 
 int OptimumSubjectToCapacity(const vector<Item>& items, int capacity) {
   return OptimumSubjectToItemAndCapacity(
-      items, size(items) - 1, capacity,
-      make_unique<vector<vector<int>>>(size(items),
+      items, items.size() - 1, capacity,
+      make_unique<vector<vector<int>>>(items.size(),
                                        vector<int>(capacity + 1, -1))
           .get());
 }

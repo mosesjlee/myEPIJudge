@@ -27,8 +27,8 @@ struct HashTuple {
 
 bool IsPatternContainedInGrid(const vector<vector<int>>& grid,
                               const vector<int>& pattern) {
-  for (int i = 0; i < size(grid); ++i) {
-    for (int j = 0; j < size(grid[i]); ++j) {
+  for (int i = 0; i < grid.size(); ++i) {
+    for (int j = 0; j < grid[i].size(); ++j) {
       if (IsPatternSuffixContainedStartingAtXY(
               grid, i, j, pattern, 0,
               make_unique<unordered_set<tuple<int, int, int>, HashTuple>>()
@@ -47,12 +47,12 @@ bool IsPatternSuffixContainedStartingAtXY(
     const vector<vector<int>>& grid, int x, int y, const vector<int>& pattern,
     int offset,
     unordered_set<tuple<int, int, int>, HashTuple>* previous_attempts) {
-  if (size(pattern) == offset) {
+  if (pattern.size() == offset) {
     // Nothing left to complete.
     return true;
   }
   // Check if (x, y) lies outside the grid.
-  if (x < 0 || x >= size(grid) || y < 0 || y >= size(grid[x]) ||
+  if (x < 0 || x >= grid.size() || y < 0 || y >= grid[x].size() ||
       previous_attempts->find(make_tuple(x, y, offset)) !=
           cend(*previous_attempts) ||
       grid[x][y] != pattern[offset]) {

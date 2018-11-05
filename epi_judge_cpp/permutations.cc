@@ -2,8 +2,9 @@
 #include "test_framework/generic_test.h"
 using std::vector;
 
-// #define BRUTE_FORCE
-// #define PRINT_RESULTS
+#define BRUTE_FORCE
+//#define INDEX_REMOVE
+//#define PRINT_RESULTS
 
 void PermutationsHelperBruteForceIdea(int n, vector<int> values,vector<int> * temp, vector<vector<int>> * results);
 void PermutationsHelper(int n, vector<int> & values, vector<vector<int>> * results);
@@ -55,6 +56,11 @@ vector<int> RemoveElement(int elem, vector<int> A) {
   return A;
 }
 
+vector<int> RemoveElementIndex(int index, vector<int> A) {
+  A.erase(A.begin()+index);
+  return A;
+}
+
 void PermutationsHelperBruteForceIdea(int n, vector<int> values, vector<int> * temp, vector<vector<int>> * results) {
   if(temp->size() == n) {
     results->emplace_back(*temp);
@@ -62,7 +68,13 @@ void PermutationsHelperBruteForceIdea(int n, vector<int> values, vector<int> * t
   else {
     for(int i = 0; i < values.size(); i++) {
       temp->push_back(values[i]);
+#ifndef INDEX_REMOVE
+#pragma message("NOT REMVING WITH INDEX")      
       auto subset = RemoveElement(values[i], values);
+#else
+#pragma message("REMVING WITH INDEX")      
+      auto subset = RemoveElementIndex(i, values);
+#endif      
       PermutationsHelperBruteForceIdea(n, subset, temp, results);
       temp->pop_back();
     }

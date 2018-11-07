@@ -10,8 +10,8 @@ int MinimumTotalWaitingTime(vector<int> service_times) {
   sort(begin(service_times), end(service_times));
 
   int total_waiting_time = 0;
-  for (int i = 0; i < size(service_times); ++i) {
-    int num_remaining_queries = size(service_times) - (i + 1);
+  for (int i = 0; i < service_times.size(); ++i) {
+    int num_remaining_queries = service_times.size() - (i + 1);
     total_waiting_time += service_times[i] * num_remaining_queries;
   }
   return total_waiting_time;

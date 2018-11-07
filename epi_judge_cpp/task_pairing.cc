@@ -11,7 +11,14 @@ struct PairedTasks {
 
 vector<PairedTasks> OptimumTaskAssignment(vector<int> task_durations) {
   // TODO - you fill in here.
-  return {};
+  sort(task_durations.begin(), task_durations.end());
+
+  vector<PairedTasks> retval;
+  for(int i = 0; i < task_durations.size()/2; i++) {
+    retval.push_back({task_durations[i], task_durations[task_durations.size()-1-i]});
+  }
+
+  return retval;
 }
 template <>
 struct SerializationTraits<PairedTasks> : UserSerTraits<PairedTasks, int, int> {

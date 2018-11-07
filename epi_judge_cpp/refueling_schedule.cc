@@ -5,13 +5,38 @@
 #include "test_framework/timed_executor.h"
 using std::vector;
 const int kMPG = 20;
-
+#define BRUTE_FORCE
 // gallons[i] is the amount of gas in city i, and distances[i] is the distance
 // city i to the next city.
 int FindAmpleCity(const vector<int>& gallons, const vector<int>& distances) {
   // TODO - you fill in here.
+  int num_cities = gallons.size();
+#ifdef BRUTE_FORCE
+  for(int i = 0; i < num_cities; i++) {
+    int tank = 0;
+    int cities_visited = 0;
+    int city = i;
+
+    for(;cities_visited < num_cities; cities_visited++) {
+      tank += gallons[city];
+      if(tank < distances[city]/kMPG) {
+        break;
+      }
+      else {
+        tank -= distances[city]/kMPG;
+        city = (city+1)%num_cities;
+      }
+    }
+
+    if(cities_visited == num_cities) {
+      return i;
+    }
+  }
+#else
+#endif
   return 0;
 }
+
 void FindAmpleCityWrapper(TimedExecutor& executor, const vector<int>& gallons,
                           const vector<int>& distances) {
   int result = executor.Run([&] { return FindAmpleCity(gallons, distances); });

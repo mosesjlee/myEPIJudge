@@ -17,7 +17,7 @@ int FindAmpleCity(const vector<int>& gallons, const vector<int>& distances) {
     int city = 0, remaining_gallons = 0;
   };
   CityAndRemainingGas city_remaining_gallons_pair;
-  const int num_cities = size(gallons);
+  const int num_cities = gallons.size();
   for (int i = 1; i < num_cities; ++i) {
     remaining_gallons += gallons[i - 1] - distances[i - 1] / kMPG;
     if (remaining_gallons < city_remaining_gallons_pair.remaining_gallons) {

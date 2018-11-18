@@ -3,7 +3,7 @@
 bool IsSymmetricHelper(BinaryTreeNode<int> * root_1, BinaryTreeNode<int> * root_2);
 bool IsTreeEqual(BinaryTreeNode<int> * root_1, BinaryTreeNode<int> * root_2);
 void FlipTree(BinaryTreeNode<int> * root);
-// #define BRUTE_FORCE
+#define BRUTE_FORCE
 bool IsSymmetric(const unique_ptr<BinaryTreeNode<int>>& tree) {
   // TODO - you fill in here.
   if(tree == nullptr) {
@@ -41,6 +41,7 @@ bool IsSymmetricHelper(BinaryTreeNode<int> * root_1, BinaryTreeNode<int> * root_
 }
 
 bool IsTreeEqual(BinaryTreeNode<int> * root_1, BinaryTreeNode<int> * root_2) {
+#ifdef FIRST_ATTEMPT
   if(root_1 == nullptr && root_2 == nullptr) {
     return true;
   }
@@ -52,6 +53,19 @@ bool IsTreeEqual(BinaryTreeNode<int> * root_1, BinaryTreeNode<int> * root_2) {
   bool right_equal = IsTreeEqual(root_1->right.get(), root_2->right.get());
 
   return left_equal && right_equal && (root_1->data == root_2->data);
+#else
+  if(root_1 == nullptr && root_2 == nullptr) {
+    return true;
+  }
+  else if(root_1 != nullptr && root_2 != nullptr) {
+    return IsTreeEqual(root_1->left.get(), root_2->left.get()) &&
+           IsTreeEqual(root_1->right.get(), root_2->right.get()) &&
+           root_1->data == root_2->data;
+  }
+  else {
+    return false;
+  }
+#endif
 }
 
 void FlipTree(BinaryTreeNode<int> * root) {

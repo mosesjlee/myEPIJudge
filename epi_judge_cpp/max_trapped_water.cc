@@ -10,7 +10,8 @@ int GetMaxTrappedWater(const vector<int>& heights) {
     int width = j-i;
     int height = heights[i] > heights[j] ? heights[j] : heights[i];
     
-    if(width * height > max_water) max_water = width * height;
+    int water = width * height;
+    if(water > max_water) max_water = water;
 
     if(heights[i] > heights[j]) {
       j--;

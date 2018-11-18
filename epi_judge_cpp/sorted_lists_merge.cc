@@ -1,6 +1,6 @@
 #include "list_node.h"
 #include "test_framework/generic_test.h"
-
+#define FIRST_ATTEMPT
 shared_ptr<ListNode<int>> MergeTwoSortedLists(shared_ptr<ListNode<int>> L1,
                                               shared_ptr<ListNode<int>> L2) {
   // TODO - you fill in here.
@@ -33,7 +33,7 @@ shared_ptr<ListNode<int>> MergeTwoSortedLists(shared_ptr<ListNode<int>> L1,
   shared_ptr<ListNode<int>> final_list_iter = dummy_head;
 
   while(L1 && L2) {
-    if(L1->data < L2->data) {
+    if(L1->data <= L2->data) {
       final_list_iter->next = L1;
       L1 = L1->next;
     }
@@ -42,11 +42,10 @@ shared_ptr<ListNode<int>> MergeTwoSortedLists(shared_ptr<ListNode<int>> L1,
       L2 = L2->next;
     }
     final_list_iter = final_list_iter->next;
-    final_list_iter->next = nullptr;
   }
 
   if(L1 != nullptr) final_list_iter->next = L1;
-  else if(L2 != nullptr) final_list_iter->next = L2;
+  else final_list_iter->next = L2;
 
   return dummy_head->next;
 #endif  

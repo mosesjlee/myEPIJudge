@@ -1,6 +1,6 @@
 #include "list_node.h"
 #include "test_framework/generic_test.h"
-#define BRUTE_FORCE
+//#define BRUTE_FORCE
 //#define BRUTE_FORCE_2 //DOESNT WORK
 void ReverseList(shared_ptr<ListNode<int>> prev_start, shared_ptr<ListNode<int>> & start, shared_ptr<ListNode<int>> & end );
 void ReverseList2(shared_ptr<ListNode<int>> & prev_start, shared_ptr<ListNode<int>> & start, shared_ptr<ListNode<int>> & end, int count );
@@ -35,7 +35,7 @@ shared_ptr<ListNode<int>> ReverseSublist(shared_ptr<ListNode<int>> L, int start,
   ReverseList2(prev, start_node, end_node, finish-start);
 
   return prev->next;
-#else
+#elif defined BOOK_LOGIC
   //This is the book's implementation. Very clean, but need to work on pointer
   //Logic
   auto dummy_head = make_shared<ListNode<int>>(ListNode<int>{0, L});
@@ -53,6 +53,27 @@ shared_ptr<ListNode<int>> ReverseSublist(shared_ptr<ListNode<int>> L, int start,
     temp->next = sublist_head->next;
     sublist_head->next = temp;
   }
+  return dummy_head->next;
+#else
+#pragma message("MY NEW UPDATED ATTEMPT")
+  auto dummy_head = make_shared<ListNode<int>>(ListNode<int>{0, L});
+  auto head = dummy_head;
+  auto master_iter = L;
+  int k = 1;
+
+  while(k++ < start) {
+    head = head->next;
+  }
+
+  auto iter = head->next;
+
+  while(start++ < finish) {
+    auto temp = iter->next;
+    iter->next = temp->next;
+    temp->next = head->next;
+    head->next = temp;
+  }
+ 
   return dummy_head->next;
 #endif
 }

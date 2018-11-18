@@ -5,6 +5,7 @@ using std::string;
 
 string IntToString(int x) {
   // TODO - you fill in here.
+#ifdef FIRST_ATTEMPT
   if(x == 0) return "0";
   long copy_x = abs(static_cast<long>(x)); //To prevent integer overflow
   
@@ -17,6 +18,18 @@ string IntToString(int x) {
 
   if(x < 0) retval = "-" + retval;
   return retval;
+#else
+  bool is_negative = x < 0;
+  string retval = "";
+
+  do {
+    retval += (abs(x%10) + '0');
+    x /= 10;
+  } while(x);
+  
+  if(is_negative) retval += '-';
+  return {retval.rbegin(), retval.rend()};
+#endif
 }
 
 int StringToInt(const string& s) {

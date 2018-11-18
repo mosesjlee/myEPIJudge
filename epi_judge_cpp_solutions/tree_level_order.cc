@@ -17,10 +17,10 @@ vector<vector<int>> BinaryTreeDepthOrder(
   }
 
   queue<BinaryTreeNode<int>*> curr_depth_nodes({tree.get()});
-  while (!empty(curr_depth_nodes)) {
+  while (!curr_depth_nodes.empty()) {
     queue<BinaryTreeNode<int>*> next_depth_nodes;
     vector<int> this_level;
-    while (!empty(curr_depth_nodes)) {
+    while (!curr_depth_nodes.empty()) {
       auto curr = curr_depth_nodes.front();
       curr_depth_nodes.pop();
       this_level.emplace_back(curr->data);

@@ -6,8 +6,8 @@ using std::vector;
 
 void RotateMatrix(vector<vector<int>>* square_matrix_ptr) {
   vector<vector<int>>& square_matrix = *square_matrix_ptr;
-  const int matrix_size = size(square_matrix) - 1;
-  for (int i = 0; i < (size(square_matrix) / 2); ++i) {
+  const int matrix_size = square_matrix.size() - 1;
+  for (int i = 0; i < (square_matrix.size() / 2); ++i) {
     for (int j = i; j < matrix_size - i; ++j) {
       // Perform a 4-way exchange.
       int temp1 = square_matrix[matrix_size - j][i];

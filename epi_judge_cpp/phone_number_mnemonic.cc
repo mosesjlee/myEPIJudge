@@ -19,7 +19,7 @@ vector<string> PhoneMnemonic(const string& phone_number) {
   vector<string> words_so_far = PhoneMnemonic(phone_number.substr(1, phone_number.length()));
 
   int index = phone_number[0] - '0';
-  std::cout << "my number " << phone_number[0] << std::endl;
+  // std::cout << "my number " << phone_number[0] << std::endl;
   if(words_so_far.size() == 0) return phone_pad[index];
 
   vector<string> retval;
@@ -36,7 +36,7 @@ vector<string> PhoneMnemonic(const string& phone_number) {
   vector<string> words_so_far = PhoneMnemonic(phone_number.substr(0, phone_number.length()-1));
 
   int index = phone_number[phone_number.length()-1] - '0';
-  std::cout << "my number " << phone_number[phone_number.length()-1] << std::endl;
+  // std::cout << "my number " << phone_number[phone_number.length()-1] << std::endl;
   if(words_so_far.size() == 0) return phone_pad[index];
 
   vector<string> retval;

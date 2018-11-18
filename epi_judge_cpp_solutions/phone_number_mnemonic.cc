@@ -14,7 +14,7 @@ void PhoneMnemonicHelper(const string&, int, string*, vector<string>*);
 vector<string> PhoneMnemonic(const string& phone_number) {
   vector<string> mnemonics;
   PhoneMnemonicHelper(phone_number, 0,
-                      make_unique<string>(size(phone_number), 0).get(),
+                      make_unique<string>(phone_number.size(), 0).get(),
                       &mnemonics);
   return mnemonics;
 }
@@ -27,7 +27,7 @@ const array<string, kNumTelDigits> kMapping = {
 
 void PhoneMnemonicHelper(const string& phone_number, int digit,
                          string* partial_mnemonic, vector<string>* mnemonics) {
-  if (digit == size(phone_number)) {
+  if (digit == phone_number.size()) {
     // All digits are processed, so add partial_mnemonic to mnemonics.
     // (We add a copy since subsequent calls modify partial_mnemonic.)
     mnemonics->emplace_back(*partial_mnemonic);

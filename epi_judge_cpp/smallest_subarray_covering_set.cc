@@ -45,7 +45,7 @@ Subarray FindSmallestSubarrayCoveringSet(
 
   return retval;
 #else
-#pragma message ("ATTEMPT TO OPTIMIZE FORCE")
+#pragma message ("ATTEMPT TO OPTIMIZE")
   Subarray retval = {-1,-1};
   int num_of_keywords = keywords.size();
   std::unordered_map<string, int> keyword_set;
@@ -68,14 +68,13 @@ Subarray FindSmallestSubarrayCoveringSet(
 
     while(0 == num_of_keywords) {
       if(keyword_set.count(paragraph[catch_up])) {
-        if(keyword_set[paragraph[catch_up]] < 1) {
-          keyword_set[paragraph[catch_up]]++;
+        //Found keyword so increment this
+        keyword_set[paragraph[catch_up]]++;
 
-          //If its the last in this set we have to look
-          //For another 1
-          if(keyword_set[paragraph[catch_up]] == 1) {
-            num_of_keywords++;
-          }
+        //If its the last in this set we have to look
+        //For another 1
+        if(keyword_set[paragraph[catch_up]] == 1) {
+          num_of_keywords++;
         }
 
         //Update only if its shorter

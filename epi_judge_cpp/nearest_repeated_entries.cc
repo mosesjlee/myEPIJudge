@@ -5,7 +5,7 @@
 #include "test_framework/generic_test.h"
 using std::string;
 using std::vector;
-//#define BRUTE_FORCE
+#define BRUTE_FORCE
 int FindNearestRepetition(const vector<string>& paragraph) {
 
   // TODO - you fill in here.

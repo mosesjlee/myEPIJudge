@@ -3,8 +3,8 @@
 using std::vector;
 
 #define BRUTE_FORCE
-//#define INDEX_REMOVE
-//#define PRINT_RESULTS
+#define INDEX_REMOVE
+// #define PRINT_RESULTS
 
 void PermutationsHelperBruteForceIdea(int n, vector<int> values,vector<int> * temp, vector<vector<int>> * results);
 void PermutationsHelper(int n, vector<int> & values, vector<vector<int>> * results);
@@ -74,7 +74,7 @@ void PermutationsHelperBruteForceIdea(int n, vector<int> values, vector<int> * t
 #else
 #pragma message("REMVING WITH INDEX")      
       auto subset = RemoveElementIndex(i, values);
-#endif      
+#endif     
       PermutationsHelperBruteForceIdea(n, subset, temp, results);
       temp->pop_back();
     }

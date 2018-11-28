@@ -8,7 +8,7 @@
 #include "test_framework/timed_executor.h"
 using std::vector;
 //#define BRUTE_FORCE
-//#define MY_OPT_ATTEMPT
+#define MY_OPT_ATTEMPT
 typedef enum { kWhite, kBlack } Color;
 struct Coordinate {
   bool operator==(const Coordinate& that) const {

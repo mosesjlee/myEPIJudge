@@ -38,7 +38,7 @@ vector<Interval> UnionOfIntervals(vector<Interval> intervals) {
         end_closed = i.right.is_closed;
       }
       else if(furthest_end_point == i.right.val) {
-        end_closed = i.right.is_closed ? i.right.is_closed : end_closed;
+        end_closed = i.right.is_closed | end_closed;
       }
     }
   }

@@ -13,7 +13,7 @@ using std::tuple;
 using std::unordered_set;
 using std::vector;
 
-//#define BRUTE_FORCE
+#define BRUTE_FORCE
 //#define PATTERN_HELPER_2
 struct HashTuple {
   size_t operator()(const tuple<int, int, int>& t) const {

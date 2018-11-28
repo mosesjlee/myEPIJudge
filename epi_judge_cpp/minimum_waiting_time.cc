@@ -5,12 +5,14 @@ using std::vector;
 int MinimumTotalWaitingTime(vector<int> service_times) {
   // TODO - you fill in here.
   sort(service_times.begin(), service_times.end());
-  vector<int> wait_times(service_times.size(), 0);
 
   int total_time = 0;
+  int prev_wait = 0;
+  int curr_wait = 0;
   for(int i = 1; i < service_times.size(); i++) {
-    wait_times[i] = service_times[i-1] + wait_times[i-1];
-    total_time += wait_times[i];
+    curr_wait = service_times[i-1] + prev_wait;
+    total_time += curr_wait;
+    prev_wait = curr_wait;
   }
 
   return total_time;

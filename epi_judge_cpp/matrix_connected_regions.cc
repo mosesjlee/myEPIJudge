@@ -6,7 +6,7 @@
 #include "test_framework/timed_executor.h"
 using std::deque;
 using std::vector;
-//#define BRUTE_FORCE
+// #define BRUTE_FORCE
 void FlipColorHelper(int x, int y, vector<deque<bool>>* image_ptr, vector<deque<bool>>* orig_image_ptr, bool & orig);
 
 void FlipColor(int x, int y, vector<deque<bool>>* image_ptr) {
@@ -25,27 +25,33 @@ void FlipColor(int x, int y, vector<deque<bool>>* image_ptr) {
   pair_queue.emplace(std::pair<int, int>(x, y));
   auto & image = *image_ptr;
   bool color = image[x][y];
-
+  image[x][y] = !color;
   while(!pair_queue.empty()) {
     auto curr_point = pair_queue.front();
+    pair_queue.pop();
     vector<std::pair<int, int>> neighbors = {std::pair<int, int>(curr_point.first, curr_point.second + 1),
                                              std::pair<int, int>(curr_point.first, curr_point.second - 1),
                                              std::pair<int, int>(curr_point.first + 1, curr_point.second),
                                              std::pair<int, int>(curr_point.first - 1, curr_point.second)};
 
+    // for(std::pair<int, int> next : neighbors) {
+    //   if(next.first < 0 || next.first >= image.size() || 
+    //     next.second < 0 || next.second >= image[next.first].size() || 
+    //     image[next.first][next.second] != color) {
+    //     continue;
+    //   }
+    //   else {
+    //     pair_queue.emplace(next);
+    //   }
+    // }
     for(std::pair<int, int> next : neighbors) {
-      if(next.first < 0 || next.first >= image.size() || 
-        next.second < 0 || next.second >= image[next.first].size() || 
-        image[next.first][next.second] != color) {
-        continue;
-      }
-      else {
+      if(next.first >= 0 && next.first < image.size() && 
+        next.second >= 0 && next.second < image[next.first].size() && 
+        image[next.first][next.second] == color) {
+        image[next.first][next.second] = !color;    
         pair_queue.emplace(next);
       }
     }
-
-    image[curr_point.first][curr_point.second] = !color;
-    pair_queue.pop();
   }
 #endif
 }

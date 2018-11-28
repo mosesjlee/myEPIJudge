@@ -6,7 +6,7 @@
 #undef main
 shared_ptr<ListNode<int>> StableSortList(shared_ptr<ListNode<int>> L) {
   // TODO - you fill in here.
-#ifdef BRUTE_FORCE
+#ifdef BOOK_BRUTE_FORCE
   shared_ptr<ListNode<int>> dummy_head = make_shared<ListNode<int>>(ListNode<int>{0, L});
   shared_ptr<ListNode<int>> iter = L;
 
@@ -28,6 +28,9 @@ shared_ptr<ListNode<int>> StableSortList(shared_ptr<ListNode<int>> L) {
   }
 
   return dummy_head->next;
+#elif defined MY_BRUTE_FORCE
+  shared_ptr<ListNode<int>> dummy_head = make_shared<ListNode<int>>(ListNode<int>{0, nullptr});
+  shared_ptr<ListNode<int>> iter = L;
 #else
   if (L == nullptr || L->next == nullptr) {
     return L;

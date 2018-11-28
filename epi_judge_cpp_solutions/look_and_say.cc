@@ -16,9 +16,9 @@ string LookAndSay(int n) {
 
 string NextNumber(const string& s) {
   string result;
-  for (int i = 0; i < size(s); ++i) {
+  for (int i = 0; i < s.size(); ++i) {
     int count = 1;
-    while (i + 1 < size(s) && s[i] == s[i + 1]) {
+    while (i + 1 < s.size() && s[i] == s[i + 1]) {
       ++i, ++count;
     }
     result += to_string(count) + s[i];

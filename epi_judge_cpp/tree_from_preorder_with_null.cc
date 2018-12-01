@@ -5,12 +5,26 @@
 #include "test_framework/timed_executor.h"
 using std::string;
 using std::vector;
+BinaryTreeNode<int> *PreorderReconstructionHelper(const vector<int*>& preorder, int & index);
 
 unique_ptr<BinaryTreeNode<int>> ReconstructPreorder(
     const vector<int*>& preorder) {
   // TODO - you fill in here.
-  return nullptr;
+  int index = 0;
+  return  unique_ptr<BinaryTreeNode<int>>(PreorderReconstructionHelper(preorder, index));
 }
+
+BinaryTreeNode<int> *PreorderReconstructionHelper(const vector<int*>& preorder, int & index) {
+  if(preorder[index] == nullptr) {
+    return nullptr;
+  }
+
+  BinaryTreeNode<int> * root = new BinaryTreeNode<int>(*preorder[index]);
+  root->left.reset(PreorderReconstructionHelper(preorder, ++index));
+  root->right.reset(PreorderReconstructionHelper(preorder, ++index));
+  return root;
+}
+
 unique_ptr<BinaryTreeNode<int>> ReconstructPreorderWrapper(
     TimedExecutor& executor, const vector<string>& preorder) {
   vector<int> values;

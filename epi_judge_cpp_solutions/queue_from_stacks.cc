@@ -15,15 +15,15 @@ class Queue {
   void Enqueue(int x) { enqueue_.emplace(x); }
 
   int Dequeue() {
-    if (empty(dequeue_)) {
+    if (dequeue_.empty()) {
       // Transfers the elements in enqueue_ to dequeue_.
-      while (!empty(enqueue_)) {
+      while (!enqueue_.empty()) {
         dequeue_.emplace(enqueue_.top());
         enqueue_.pop();
       }
     }
 
-    if (empty(dequeue_)) {  // dequeue_ is still empty!
+    if (dequeue_.empty()) {  // dequeue_ is still empty!
       throw length_error("empty queue");
     }
     int result = dequeue_.top();

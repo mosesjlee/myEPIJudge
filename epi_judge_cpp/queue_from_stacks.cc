@@ -1,20 +1,36 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <stack>
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 #include "test_framework/test_failure.h"
 using std::length_error;
+using std::stack;
 class Queue {
  public:
   void Enqueue(int x) {
     // TODO - you fill in here.
+    insert_stack.push(x);
     return;
   }
   int Dequeue() {
     // TODO - you fill in here.
-    return 0;
+    if(output_stack.empty()) {
+      while(!insert_stack.empty()) {
+        output_stack.push(insert_stack.top());
+        insert_stack.pop();
+      }
+    }
+
+    int retval = output_stack.top();
+    output_stack.pop();
+    return retval;
   }
+
+private:
+  stack<int> insert_stack;
+  stack<int> output_stack;
 };
 struct QueueOp {
   enum { kConstruct, kDequeue, kEnqueue } op;

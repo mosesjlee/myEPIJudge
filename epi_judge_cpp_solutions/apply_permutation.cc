@@ -7,7 +7,7 @@ using std::vector;
 
 void ApplyPermutation(vector<int>* perm_ptr, vector<int>* A_ptr) {
   vector<int>&perm = *perm_ptr, &A = *A_ptr;
-  for (int i = 0; i < size(A); ++i) {
+  for (int i = 0; i < A.size(); ++i) {
     // Check if the element at index i has not been moved by checking if
     // perm[i] is nonnegative.
     int next = i;
@@ -16,13 +16,13 @@ void ApplyPermutation(vector<int>* perm_ptr, vector<int>* A_ptr) {
       int temp = perm[next];
       // Subtracts size(perm) from an entry in perm to make it negative,
       // which indicates the corresponding move has been performed.
-      perm[next] -= size(perm);
+      perm[next] -= perm.size();
       next = temp;
     }
   }
 
   // Restore perm.
-  for_each(begin(perm), end(perm), [&perm](int& x) { x += size(perm); });
+  for_each(begin(perm), end(perm), [&perm](int& x) { x += perm.size(); });
 }
 
 vector<int> ApplyPermutationWrapper(vector<int> perm, vector<int> A) {

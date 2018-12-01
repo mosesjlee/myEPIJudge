@@ -9,9 +9,14 @@
 using std::string;
 using std::vector;
 
+#define FIRST_ATTEMPT
+void FillSurroundedRegionsHelper(int row, int col, vector<vector<char>>* board_ptr);
+
 void FillSurroundedRegions(vector<vector<char>>* board_ptr) {
   // TODO - you fill in here.
   auto & board = *board_ptr;
+#ifdef FIRST_ATTEMPT
+#pragma message("FIRST ATTEMPT")
   std::vector<std::pair<int, int>> edge_points; 
 
   for(int i = 0; i < board.front().size(); i++) { 
@@ -46,6 +51,20 @@ void FillSurroundedRegions(vector<vector<char>>* board_ptr) {
       }
     }
   }
+#else
+#pragma message("BOOK OPTIMIZED")
+  for(int i = 0; i < board.front().size(); i++) { 
+    FillSurroundedRegionsHelper(0, i, board_ptr);
+    FillSurroundedRegionsHelper(board.size()-1, i, board_ptr);  
+  }
+
+  for(int j = 0; j < board.size(); j++) {
+    FillSurroundedRegionsHelper(j, 0, board_ptr);
+    FillSurroundedRegionsHelper(j, board[j].size()-1, board_ptr);
+  }
+
+
+#endif
 
   for(int i = 0; i < board.size(); i++) {
     for(int j = 0; j < board[i].size(); j++) {
@@ -55,6 +74,29 @@ void FillSurroundedRegions(vector<vector<char>>* board_ptr) {
   }
 
   return;
+}
+
+void FillSurroundedRegionsHelper(int row, int col, vector<vector<char>>* board_ptr) {
+  auto & board = *board_ptr;
+  std::queue<std::pair<int,int>> edge_queue;
+  edge_queue.emplace(std::pair<int, int>(row, col));
+  while(!edge_queue.empty()) {
+    auto next = edge_queue.front();
+    edge_queue.pop();
+    vector<std::pair<int, int>> neighbors = {std::pair<int, int>(next.first, next.second+1), 
+                                             std::pair<int, int>(next.first, next.second-1), 
+                                             std::pair<int, int>(next.first+1, next.second), 
+                                             std::pair<int, int>(next.first-1, next.second)};
+
+    if(next.first > -1 && next.first < board.size() && 
+      next.second > -1 && next.second < board.front().size() &&
+      board[next.first][next.second] == 'W') {
+      board[next.first][next.second] = 'T';
+      for(const auto & p : neighbors) {
+        edge_queue.emplace(p);
+      }
+    }
+  }
 }
 
 vector<vector<string>> FillSurroundedRegionsWrapper(

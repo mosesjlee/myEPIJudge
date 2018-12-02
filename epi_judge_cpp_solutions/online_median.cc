@@ -23,12 +23,12 @@ vector<double> OnlineMedian(vector<int>::const_iterator sequence_begin,
     // Ensure min_heap and max_heap have equal number of elements if
     // an even number of elements is read; otherwise, min_heap must have
     // one more element than max_heap.
-    if (size(max_heap) > size(min_heap)) {
+    if (max_heap.size() > min_heap.size()) {
       min_heap.emplace(max_heap.top());
       max_heap.pop();
     }
 
-    result.emplace_back(size(min_heap) == size(max_heap)
+    result.emplace_back(min_heap.size() == max_heap.size()
                             ? 0.5 * (min_heap.top() + max_heap.top())
                             : min_heap.top());
   }

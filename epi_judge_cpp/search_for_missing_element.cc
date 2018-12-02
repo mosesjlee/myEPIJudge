@@ -9,7 +9,28 @@ struct DuplicateAndMissing {
 
 DuplicateAndMissing FindDuplicateMissing(const vector<int>& A) {
   // TODO - you fill in here.
-  return {0, 0};
+  //COPIED FROM BOOK
+  int miss_xor_dup = 0;
+  for(int i = 0; i < A.size(); i++) {
+    miss_xor_dup ^= i ^ A[i];
+  }
+
+  int differ_bit = miss_xor_dup & (~(miss_xor_dup-1));
+  int miss_or_dup = 0;
+  for(int i = 0; i < A.size(); i++) {
+    if(differ_bit & i) {
+      miss_or_dup ^= i;
+    }
+    if(differ_bit & A[i]) {
+      miss_or_dup ^= A[i];
+    }
+  }
+
+  if(find(A.begin(), A.end(), miss_or_dup) != A.end()) {
+    return {miss_or_dup, miss_or_dup ^ miss_xor_dup};
+  }
+
+  return {miss_or_dup ^ miss_xor_dup, miss_or_dup};
 }
 template <>
 struct SerializationTraits<DuplicateAndMissing>

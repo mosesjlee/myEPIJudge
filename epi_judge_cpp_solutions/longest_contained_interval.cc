@@ -13,7 +13,7 @@ int LongestContainedRange(const vector<int>& A) {
   unordered_set<int> unprocessed_entries(begin(A), end(A));
 
   int max_interval_size = 0;
-  while (!empty(unprocessed_entries)) {
+  while (!unprocessed_entries.empty()) {
     int a = *begin(unprocessed_entries);
     unprocessed_entries.erase(a);
 
